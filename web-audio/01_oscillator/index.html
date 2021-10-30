@@ -32,7 +32,7 @@
         // oscillator.type = "square";
         // oscillator.frequency.value = 440;
         oscillator.connect(audioContext.destination);
-        oscillator.start();
+        oscillator.start(2);
         // oscillator => audioContext.destination
         console.log("Playing");
     })
@@ -40,6 +40,10 @@
         console.log("Pause");
         oscillator.stop();
     })
+
+    setInterval(() => {
+        console.log(audioContext.currentTime);
+    }, 1000)
 </script>
 </body>
 </html>
