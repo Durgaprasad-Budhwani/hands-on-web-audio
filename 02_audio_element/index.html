@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audi Tag Example</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: gray;
+        }
+    </style>
+</head>
+<body>
+    <button id="play">Play</button>
+    <button id="pause">Pause</button>
+
+<script>
+    const audio = new Audio("John-Bartmann-Mellow-Cafe-Vibe.mp3");
+    audio.load();
+    document.getElementById("play").addEventListener("click", () => {
+        console.log("Playing");
+        audio.play();
+    })
+    document.getElementById("pause").addEventListener("click", () => {
+        console.log("Pause");
+        audio.pause();
+    })
+</script>
+</body>
+</html>
