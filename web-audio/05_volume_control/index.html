@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audi Tag Example</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: gray;
+        }
+        button {
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+<button id="play">Play</button>
+<button id="pause">Pause</button>
+<input type="range" min="0" max="100" value="50"  id="slider">
+<div id="currentValue">50</div>
+
+
+<script>
+    const audioContext = new AudioContext();
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = 0.5;
+    let oscillator;
+    document.getElementById("play").addEventListener("click", () => {
+        oscillator = new OscillatorNode(audioContext, { type: "sine", frequency: 440})
+        // oscillator => gainNode => speaker
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        oscillator.start();
+        console.log("Playing");
+    })
+    document.getElementById("pause").addEventListener("click", () => {
+        console.log("Pause");
+        oscillator.stop();
+    })
+    document.getElementById("slider").oninput = function () {
+        document.getElementById("currentValue").innerHTML = this.value;
+        gainNode.gain.value = this.value / 100;
+    }
+</script>
+</body>
+</html>

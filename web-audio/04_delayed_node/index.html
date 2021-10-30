@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audi Tag Example</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: gray;
+        }
+        button {
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+<button id="play">Play</button>
+<button id="pause">Pause</button>
+<script>
+    const audioContext = new AudioContext();
+    const delayedNode = audioContext.createDelay(5);
+    delayedNode.delayTime.value = 2;
+    let oscillator;
+    document.getElementById("play").addEventListener("click", () => {
+        oscillator = new OscillatorNode(audioContext, { type: "sine", frequency: 440})
+        // oscillator => delayedNode => speaker
+        oscillator.connect(delayedNode);
+        delayedNode.connect(audioContext.destination);
+        oscillator.start();
+        console.log("Playing");
+    })
+    document.getElementById("pause").addEventListener("click", () => {
+        console.log("Pause");
+        oscillator.stop();
+    })
+</script>
+</body>
+</html>
