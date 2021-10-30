@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Audio API</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: gray;
+        }
+
+        button {
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+<button id="play">Play</button>
+
+<script>
+    const audioContext = new AudioContext();
+    audioContext.suspend();
+    const channels = 2;
+    const frameCount = audioContext.sampleRate * 2.0;
+    const whiteNoiseGenerator = () => {
+        const audioBuffer = audioContext.createBuffer(2, frameCount, audioContext.sampleRate);
+        for (let channel = 0; channel < channels; channel++) {
+            const nowBuffering = audioBuffer.getChannelData(channel);
+            for (let i = 0; i < frameCount; i++) {
+                nowBuffering[i] = Math.random() * 2 -1;
+            }
+        }
+        console.log(audioBuffer);
+        return audioBuffer;
+    }
+    document.getElementById("play").addEventListener("click", async () => {
+        console.log("Audio Buffer");
+        const source = audioContext.createBufferSource();
+        // source = new AudioBufferSourceNode(audioContext)
+        source.buffer = whiteNoiseGenerator();
+        source.connect(audioContext.destination);
+        await audioContext.resume();
+        source.start();
+    })
+</script>
+</body>
+</html>
