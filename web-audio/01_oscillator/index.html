@@ -32,13 +32,13 @@
         // oscillator.type = "square";
         // oscillator.frequency.value = 440;
         oscillator.connect(audioContext.destination);
-        oscillator.start(2);
+        oscillator.start();
         // oscillator => audioContext.destination
         console.log("Playing");
     })
     document.getElementById("pause").addEventListener("click", () => {
         console.log("Pause");
-        oscillator.stop();
+        oscillator.stop(audioContext.currentTime + 1);
     })
 
     setInterval(() => {
