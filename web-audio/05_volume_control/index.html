@@ -45,7 +45,9 @@
     })
     document.getElementById("slider").oninput = function () {
         document.getElementById("currentValue").innerHTML = this.value;
-        gainNode.gain.value = this.value / 100;
+        // gainNode.gain.value = this.value / 100;
+
+        gainNode.gain.setTargetAtTime(this.value/100, audioContext.currentTime + 2, 0.1);
     }
 </script>
 </body>

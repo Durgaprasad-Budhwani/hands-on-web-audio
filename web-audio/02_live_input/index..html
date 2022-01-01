@@ -34,7 +34,7 @@
             source.connect(audioContext.destination);
             await audioContext.resume();
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     })
 </script>
