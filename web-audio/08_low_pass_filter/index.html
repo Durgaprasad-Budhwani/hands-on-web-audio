@@ -29,10 +29,27 @@
     const audioContext = new AudioContext();
 
     document.getElementById("play").addEventListener("click", async () => {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false});
-        const microphone = audioContext.createMediaStreamSource(stream);
+        const source = audioContext.createBufferSource();
+        const response = await fetch("welcome.mp3");
+        const buffer = await response.arrayBuffer();
+        const arrayBuffer = await audioContext.decodeAudioData(buffer);
 
-        microphone.connect(audioContext.destination);
+        source.buffer = arrayBuffer;
+
+        const filter = audioContext.createBiquadFilter();
+        filter.type = "lowpass";
+
+        filter.frequency.value = 1000;
+
+        source.connect(filter);
+
+        // const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false});
+        // const microphone = audioContext.createMediaStreamSource(stream);
+        filter.connect(audioContext.destination);
+
+        await audioContext.resume();
+        await source.start();
+
         console.log("playing");
     })
 
